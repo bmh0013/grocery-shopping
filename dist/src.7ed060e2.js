@@ -31366,7 +31366,238 @@ module.exports.default = axios;
 
 },{"./utils":"../node_modules/axios/lib/utils.js","./helpers/bind":"../node_modules/axios/lib/helpers/bind.js","./core/Axios":"../node_modules/axios/lib/core/Axios.js","./core/mergeConfig":"../node_modules/axios/lib/core/mergeConfig.js","./defaults":"../node_modules/axios/lib/defaults.js","./cancel/Cancel":"../node_modules/axios/lib/cancel/Cancel.js","./cancel/CancelToken":"../node_modules/axios/lib/cancel/CancelToken.js","./cancel/isCancel":"../node_modules/axios/lib/cancel/isCancel.js","./helpers/spread":"../node_modules/axios/lib/helpers/spread.js","./helpers/isAxiosError":"../node_modules/axios/lib/helpers/isAxiosError.js"}],"../node_modules/axios/index.js":[function(require,module,exports) {
 module.exports = require('./lib/axios');
-},{"./lib/axios":"../node_modules/axios/lib/axios.js"}],"../src/components/App.jsx":[function(require,module,exports) {
+},{"./lib/axios":"../node_modules/axios/lib/axios.js"}],"../src/components/GroceryItem.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var GroceryItem = function GroceryItem(_ref) {
+  var item = _ref.item;
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "table-row"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "table-item"
+  }, item.name), /*#__PURE__*/_react.default.createElement("div", {
+    className: "table-item"
+  }, item.category), /*#__PURE__*/_react.default.createElement("div", {
+    className: "table-item"
+  }, "$", item.price.toFixed(2)), /*#__PURE__*/_react.default.createElement("div", {
+    className: "item-button"
+  }, /*#__PURE__*/_react.default.createElement("button", null, "-"), /*#__PURE__*/_react.default.createElement("button", null, "+")));
+};
+
+var _default = GroceryItem;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"../src/components/GroceryTable.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _GroceryItem = _interopRequireDefault(require("./GroceryItem.jsx"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var GroceryTable = function GroceryTable(_ref) {
+  var items = _ref.items;
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "table"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "table-headers"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "table-item"
+  }, "Name"), /*#__PURE__*/_react.default.createElement("div", {
+    className: "table-item"
+  }, "Category"), /*#__PURE__*/_react.default.createElement("div", {
+    className: "table-item"
+  }, "Price")), items === null || items === void 0 ? void 0 : items.map(function (item, idx) {
+    return /*#__PURE__*/_react.default.createElement(_GroceryItem.default, {
+      key: idx,
+      item: item
+    });
+  }));
+};
+
+var _default = GroceryTable;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","./GroceryItem.jsx":"../src/components/GroceryItem.jsx"}],"../src/components/ShoppingCartItem.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ShoppingCartItem = function ShoppingCartItem(_ref) {
+  var item = _ref.item;
+  item.quantity = 4;
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "table-row"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "table-item"
+  }, item.name), /*#__PURE__*/_react.default.createElement("div", {
+    className: "table-item"
+  }, "$", item.price.toFixed(2)), /*#__PURE__*/_react.default.createElement("div", {
+    className: "table-item"
+  }, item.quantity), /*#__PURE__*/_react.default.createElement("div", {
+    className: "table-item"
+  }, "$", (item.quantity * item.price).toFixed(2)));
+};
+
+var _default = ShoppingCartItem;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"../src/components/ShoppingCart.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _ShoppingCartItem = _interopRequireDefault(require("./ShoppingCartItem.jsx"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var ShoppingCart = function ShoppingCart(_ref) {
+  var items = _ref.items;
+  var totalPrice = items.reduce(function (accu, item) {
+    return item.price * 4;
+  }, 0);
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "table"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "table-headers"
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "table-item"
+  }, "Name"), /*#__PURE__*/_react.default.createElement("div", {
+    className: "table-item"
+  }, "Unit Price"), /*#__PURE__*/_react.default.createElement("div", {
+    className: "table-item"
+  }, "Quantity"), /*#__PURE__*/_react.default.createElement("div", {
+    className: "table-item"
+  }, "Total Price")), items === null || items === void 0 ? void 0 : items.map(function (item, idx) {
+    return /*#__PURE__*/_react.default.createElement(_ShoppingCartItem.default, {
+      key: idx,
+      item: item
+    });
+  })), /*#__PURE__*/_react.default.createElement("div", {
+    className: "grand-total"
+  }, "Grand Total: ", totalPrice.toFixed(2)));
+};
+
+var _default = ShoppingCart;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","./ShoppingCartItem.jsx":"../src/components/ShoppingCartItem.jsx"}],"../src/components/SearchBar.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SearchBar = function SearchBar() {
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "search"
+  }, /*#__PURE__*/_react.default.createElement("input", {
+    className: "user-input",
+    type: "text"
+  }));
+};
+
+var _default = SearchBar;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"../src/mockdata.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var data = [{
+  id: 1,
+  name: "Bananas",
+  category: "fruit",
+  price: 1.23
+}, {
+  id: 2,
+  name: "Apples",
+  category: "fruit",
+  price: 1.57
+}, {
+  id: 3,
+  name: "Strawberries",
+  category: "fruit",
+  price: .97
+}, {
+  id: 4,
+  name: "Pears",
+  category: "fruit",
+  price: 2.10
+}, {
+  id: 5,
+  name: "Broccoli",
+  category: "vegetable",
+  price: 1.69
+}, {
+  id: 6,
+  name: "Carrots",
+  category: "vegetable",
+  price: 2.21
+}, {
+  id: 7,
+  name: "Onions",
+  category: "vegetable",
+  price: 3.23
+}, {
+  id: 8,
+  name: "Potatoes",
+  category: "vegetable",
+  price: 2.76
+}, {
+  id: 9,
+  name: "Cherrios",
+  category: "cereal",
+  price: 4.23
+}, {
+  id: 10,
+  name: "Oreo O's",
+  category: "cereal",
+  price: 3.99
+}, {
+  id: 11,
+  name: "Special K Blueberry",
+  category: "cereal",
+  price: 4.50
+}, {
+  id: 12,
+  name: "Life",
+  category: "cereal",
+  price: 5.00
+}];
+var _default = data;
+exports.default = _default;
+},{}],"../src/components/App.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31375,6 +31606,16 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
+
+var _GroceryTable = _interopRequireDefault(require("./GroceryTable.jsx"));
+
+var _ShoppingCart = _interopRequireDefault(require("./ShoppingCart.jsx"));
+
+var _SearchBar = _interopRequireDefault(require("./SearchBar.jsx"));
+
+var _mockdata = _interopRequireDefault(require("../mockdata.js"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -31395,27 +31636,47 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var axios = require('axios');
 
 var App = function App() {
-  var _useState = (0, _react.useState)(),
+  var _useState = (0, _react.useState)(_mockdata.default),
       _useState2 = _slicedToArray(_useState, 2),
       groceryItems = _useState2[0],
       setGroceryItems = _useState2[1];
 
-  (0, _react.useEffect)(function () {
-    console.log(groceryItems);
-  }, [groceryItems]);
-  (0, _react.useEffect)(function () {
-    axios.get("https://muigrocery.free.beeceptor.com/groceries").then(function (res) {
-      setGroceryItems(res.data.products);
-    }).catch(function (err) {
-      console.log(err);
-    });
-  }, []);
-  return /*#__PURE__*/_react.default.createElement("div", null, "Hello World!");
+  var _useState3 = (0, _react.useState)([{
+    id: 1,
+    name: "Bananas",
+    category: "fruit",
+    price: 1.23
+  }]),
+      _useState4 = _slicedToArray(_useState3, 2),
+      shoppingCart = _useState4[0],
+      setShoppingCart = _useState4[1]; // useEffect( () => {
+  //   console.log(groceryItems);
+  // }, [] )
+  // useEffect( () => {
+  //   axios.get("https://muigrocery.free.beeceptor.com/groceries")
+  //   .then( res => {
+  //     setGroceryItems( res.data.products );
+  //   })
+  //   .catch( err => {
+  //     console.log( err );
+  //   });
+  // }, [] )
+
+
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "section"
+  }, /*#__PURE__*/_react.default.createElement("h3", null, "Grocery Items"), /*#__PURE__*/_react.default.createElement(_SearchBar.default, null), /*#__PURE__*/_react.default.createElement(_GroceryTable.default, {
+    items: groceryItems
+  })), /*#__PURE__*/_react.default.createElement("div", {
+    className: "section"
+  }, /*#__PURE__*/_react.default.createElement("h3", null, "Shopping Cart"), /*#__PURE__*/_react.default.createElement(_ShoppingCart.default, {
+    items: shoppingCart
+  })));
 };
 
 var _default = App;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js"}],"../src/index.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","./GroceryTable.jsx":"../src/components/GroceryTable.jsx","./ShoppingCart.jsx":"../src/components/ShoppingCart.jsx","./SearchBar.jsx":"../src/components/SearchBar.jsx","../mockdata.js":"../src/mockdata.js"}],"../src/index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -31455,7 +31716,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56472" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61894" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

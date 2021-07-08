@@ -1,0 +1,57 @@
+body {
+  font-family: sans-serif;
+}
+
+.table {
+  width: 50vw;
+  height: 35vh;
+  margin: 0 auto;
+  border: 2px solid black;
+  overflow-y: scroll;
+}
+
+.table-headers {
+  display: flex;
+  font-weight: 700;
+}
+
+.table-row {
+  display: flex;
+}
+
+.table-item {
+  display: flex;
+  flex-grow: 1;
+  flex-basis: 0;
+  padding: 0.5em;
+  overflow: hidden;
+  white-space: nowrap;
+  border-bottom: 1px solid #d0d0d0;
+}
+
+.item-button {
+  padding: 0.5em;
+  border-bottom: 1px solid #d0d0d0;
+}
+
+h3 {
+  text-align: center;
+}
+
+.search {
+  margin: 0 auto;
+  width: 50vw;
+  text-align: center;
+}
+
+.user-input {
+  width: 90%;
+  padding: .5em;
+  margin: .5em;
+  border: 1px solid grey;
+  border-radius: 180px;
+}
+
+.grand-total {
+  text-align: center;
+}
