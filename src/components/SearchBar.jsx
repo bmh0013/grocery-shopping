@@ -5,9 +5,10 @@ const SearchBar = ({ handleSearch }) => {
     <div className="search">
       <input
         className="user-input"
+        id="search-bar"
         type="text"
         placeholder="Search for items..."
-        onChange={ e => handleSearch(e.target.value)}
+        onChange={ e => handleSearch( e.target.value.toLowerCase() ) }
       />
     </div>
   );

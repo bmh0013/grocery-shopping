@@ -8,7 +8,7 @@ body {
   margin: 0 auto;
   border: 2px solid black;
   overflow-y: scroll;
-  padding-right: 10px
+  padding-right: 10px;
 }
 
 .table-headers {
@@ -37,7 +37,7 @@ body {
 
 h3 {
   text-align: center;
-  margin: .5em;
+  margin: 0.5em;
 }
 
 .search {
@@ -48,8 +48,8 @@ h3 {
 
 .user-input {
   width: 90%;
-  padding: .5em;
-  margin: .5em;
+  padding: 0.5em;
+  margin: 0.5em;
   border: 1px solid grey;
   border-radius: 180px;
   text-align: center;
@@ -57,4 +57,11 @@ h3 {
 
 .grand-total {
   text-align: center;
+}
+
+.filters {
+  width: 50vw;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
 }
