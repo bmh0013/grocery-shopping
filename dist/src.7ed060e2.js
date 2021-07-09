@@ -31378,19 +31378,63 @@ var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 var GroceryItem = function GroceryItem(_ref) {
-  var item = _ref.item;
+  var item = _ref.item,
+      cart = _ref.cart,
+      addToCart = _ref.addToCart;
+
+  var addItem = function addItem() {
+    var updateCart = _objectSpread({}, cart);
+
+    if (updateCart[item.id]) {
+      updateCart[item.id].quantity++;
+    } else {
+      updateCart[item.id] = {
+        name: item.name,
+        type: item.type,
+        price: item.price,
+        quantity: 1
+      };
+    }
+
+    addToCart(updateCart);
+  };
+
+  var removeItem = function removeItem() {
+    var updateCart = _objectSpread({}, cart);
+
+    if (updateCart[item.id]) {
+      updateCart[item.id].quantity--;
+
+      if (!updateCart[item.id].quantity) {
+        delete updateCart[item.id];
+      }
+    }
+
+    addToCart(updateCart);
+  };
+
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "table-row"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "table-item"
   }, item.name), /*#__PURE__*/_react.default.createElement("div", {
     className: "table-item"
-  }, item.category), /*#__PURE__*/_react.default.createElement("div", {
+  }, item.type), /*#__PURE__*/_react.default.createElement("div", {
     className: "table-item"
   }, "$", item.price.toFixed(2)), /*#__PURE__*/_react.default.createElement("div", {
     className: "item-button"
-  }, /*#__PURE__*/_react.default.createElement("button", null, "-"), /*#__PURE__*/_react.default.createElement("button", null, "+")));
+  }, /*#__PURE__*/_react.default.createElement("button", {
+    onClick: removeItem
+  }, "-"), /*#__PURE__*/_react.default.createElement("button", {
+    onClick: addItem
+  }, "+")));
 };
 
 var _default = GroceryItem;
@@ -31410,7 +31454,9 @@ var _GroceryItem = _interopRequireDefault(require("./GroceryItem.jsx"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var GroceryTable = function GroceryTable(_ref) {
-  var items = _ref.items;
+  var items = _ref.items,
+      cart = _ref.cart,
+      addToCart = _ref.addToCart;
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "table"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -31419,12 +31465,14 @@ var GroceryTable = function GroceryTable(_ref) {
     className: "table-item"
   }, "Name"), /*#__PURE__*/_react.default.createElement("div", {
     className: "table-item"
-  }, "Category"), /*#__PURE__*/_react.default.createElement("div", {
+  }, "Type"), /*#__PURE__*/_react.default.createElement("div", {
     className: "table-item"
   }, "Price")), items === null || items === void 0 ? void 0 : items.map(function (item, idx) {
     return /*#__PURE__*/_react.default.createElement(_GroceryItem.default, {
       key: idx,
-      item: item
+      item: item,
+      cart: cart,
+      addToCart: addToCart
     });
   }));
 };
@@ -31445,7 +31493,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var ShoppingCartItem = function ShoppingCartItem(_ref) {
   var item = _ref.item;
-  item.quantity = 4;
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "table-row"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -31476,9 +31523,13 @@ var _ShoppingCartItem = _interopRequireDefault(require("./ShoppingCartItem.jsx")
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ShoppingCart = function ShoppingCart(_ref) {
+  var _items;
+
   var items = _ref.items;
+  items = Object.values(items);
   var totalPrice = items.reduce(function (accu, item) {
-    return item.price * 4;
+    accu += item.price * item.quantity;
+    return accu;
   }, 0);
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
     className: "table"
@@ -31492,14 +31543,14 @@ var ShoppingCart = function ShoppingCart(_ref) {
     className: "table-item"
   }, "Quantity"), /*#__PURE__*/_react.default.createElement("div", {
     className: "table-item"
-  }, "Total Price")), items === null || items === void 0 ? void 0 : items.map(function (item, idx) {
+  }, "Total Price")), (_items = items) === null || _items === void 0 ? void 0 : _items.map(function (item, idx) {
     return /*#__PURE__*/_react.default.createElement(_ShoppingCartItem.default, {
       key: idx,
       item: item
     });
   })), /*#__PURE__*/_react.default.createElement("div", {
     className: "grand-total"
-  }, "Grand Total: ", totalPrice.toFixed(2)));
+  }, "Grand Total: $", totalPrice.toFixed(2)));
 };
 
 var _default = ShoppingCart;
@@ -31516,18 +31567,23 @@ var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var SearchBar = function SearchBar() {
+var SearchBar = function SearchBar(_ref) {
+  var handleSearch = _ref.handleSearch;
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "search"
   }, /*#__PURE__*/_react.default.createElement("input", {
     className: "user-input",
-    type: "text"
+    type: "text",
+    placeholder: "Search for items...",
+    onChange: function onChange(e) {
+      return handleSearch(e.target.value);
+    }
   }));
 };
 
 var _default = SearchBar;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js"}],"../src/mockdata.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js"}],"../src/data.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31536,64 +31592,254 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var data = [{
   id: 1,
-  name: "Bananas",
-  category: "fruit",
-  price: 1.23
+  name: "Brown eggs",
+  type: "dairy",
+  price: 28.1
 }, {
   id: 2,
-  name: "Apples",
-  category: "fruit",
-  price: 1.57
+  name: "Watermelon",
+  type: "fruit",
+  price: 29.45
 }, {
   id: 3,
-  name: "Strawberries",
-  category: "fruit",
-  price: .97
+  name: "Asparagus",
+  type: "vegetable",
+  price: 18.95
 }, {
   id: 4,
-  name: "Pears",
-  category: "fruit",
-  price: 2.10
+  name: "Green smoothie",
+  type: "dairy",
+  price: 17.68
 }, {
   id: 5,
-  name: "Broccoli",
-  category: "vegetable",
-  price: 1.69
+  name: "Raw legums",
+  type: "vegetable",
+  price: 17.11
 }, {
   id: 6,
-  name: "Carrots",
-  category: "vegetable",
-  price: 2.21
+  name: "Baking cake",
+  type: "dairy",
+  price: 11.14
 }, {
   id: 7,
-  name: "Onions",
-  category: "vegetable",
-  price: 3.23
+  name: "Pesto with basil",
+  type: "vegetable",
+  price: 18.19
 }, {
   id: 8,
-  name: "Potatoes",
-  category: "vegetable",
-  price: 2.76
+  name: "Hazelnut in black ceramic bowl",
+  type: "vegetable",
+  price: 27.35
 }, {
   id: 9,
-  name: "Cherrios",
-  category: "cereal",
-  price: 4.23
+  name: "Fresh stawberry",
+  type: "fruit",
+  price: 28.59
 }, {
   id: 10,
-  name: "Oreo O's",
-  category: "cereal",
-  price: 3.99
+  name: "Lemon and salt",
+  type: "fruit",
+  price: 15.79
 }, {
   id: 11,
-  name: "Special K Blueberry",
-  category: "cereal",
-  price: 4.50
+  name: "Homemade bread",
+  type: "bakery",
+  price: 17.48
 }, {
   id: 12,
-  name: "Life",
-  category: "cereal",
-  price: 5.00
+  name: "Legums",
+  type: "vegetable",
+  price: 14.77
+}, {
+  id: 13,
+  name: "Fresh tomato",
+  type: "vegetable",
+  price: 16.3
+}, {
+  id: 14,
+  name: "Healthy breakfast",
+  type: "fruit",
+  price: 13.02
+}, {
+  id: 15,
+  name: "Green beans",
+  type: "vegetable",
+  price: 28.79
+}, {
+  id: 16,
+  name: "Baked stuffed portabello mushrooms",
+  type: "bakery",
+  price: 20.31
+}, {
+  id: 17,
+  name: "Strawberry jelly",
+  type: "fruit",
+  price: 14.18
+}, {
+  id: 18,
+  name: "Pears juice",
+  type: "fruit",
+  price: 19.49
+}, {
+  id: 19,
+  name: "Fresh pears",
+  type: "fruit",
+  price: 15.12
+}, {
+  id: 20,
+  name: "Caprese salad",
+  type: "vegetable",
+  price: 16.76
+}, {
+  id: 21,
+  name: "Oranges",
+  type: "fruit",
+  price: 21.48
+}, {
+  id: 22,
+  name: "Vegan food",
+  type: "vegetable",
+  price: 29.66
+}, {
+  id: 23,
+  name: "Breakfast with muesli",
+  type: "dairy",
+  price: 22.7
+}, {
+  id: 24,
+  name: "Honey",
+  type: "bakery",
+  price: 17.01
+}, {
+  id: 25,
+  name: "Breakfast with cottage",
+  type: "fruit",
+  price: 14.05
+}, {
+  id: 26,
+  name: "Strawberry smoothie",
+  type: "fruit",
+  price: 28.86
+}, {
+  id: 27,
+  name: "Strawberry and mint",
+  type: "fruit",
+  price: 26.21
+}, {
+  id: 28,
+  name: "Ricotta",
+  type: "dairy",
+  price: 27.81
+}, {
+  id: 29,
+  name: "Cuban sandwich",
+  type: "bakery",
+  price: 18.5
+}, {
+  id: 30,
+  name: "Granola",
+  type: "dairy",
+  price: 29.97
+}, {
+  id: 31,
+  name: "Smoothie with chia seeds",
+  type: "fruit",
+  price: 25.26
+}, {
+  id: 32,
+  name: "Yogurt",
+  type: "dairy",
+  price: 27.61
+}, {
+  id: 33,
+  name: "Sandwich with salad",
+  type: "vegetable",
+  price: 22.48
+}, {
+  id: 34,
+  name: "Cherries",
+  type: "fruit",
+  price: 14.35
+}, {
+  id: 35,
+  name: "Asparagus",
+  type: "vegetable",
+  price: 22.97
+}, {
+  id: 36,
+  name: "Corn",
+  type: "vegetable",
+  price: 13.55
+}, {
+  id: 37,
+  name: "Tofu",
+  type: "vegan",
+  price: 28.96
+}, {
+  id: 38,
+  name: "Blueberries",
+  type: "fruit",
+  price: 21.01
+}, {
+  id: 39,
+  name: "Smashed avocado",
+  type: "fruit",
+  price: 25.88
+}, {
+  id: 40,
+  name: "Italian ciabatta",
+  type: "bakery",
+  price: 15.18
+}, {
+  id: 41,
+  name: "Rustic breakfast",
+  type: "dairy",
+  price: 21.32
+}, {
+  id: 42,
+  name: "Sliced lemons",
+  type: "fruit",
+  price: 27.14
+}, {
+  id: 43,
+  name: "Plums",
+  type: "fruit",
+  price: 19.18
+}, {
+  id: 44,
+  name: "French fries",
+  type: "bakery",
+  price: 18.32
+}, {
+  id: 45,
+  name: "Strawberries",
+  type: "fruit",
+  price: 15.13
+}, {
+  id: 46,
+  name: "Ground beef",
+  type: "meat",
+  price: 11.73
+}, {
+  id: 47,
+  name: "Tomatoes",
+  type: "fruit",
+  price: 26.03
+}, {
+  id: 48,
+  name: "Basil",
+  type: "vegetable",
+  price: 15.19
+}, {
+  id: 49,
+  name: "Fruits bouquet",
+  type: "fruit",
+  price: 18.18
+}, {
+  id: 50,
+  name: "Peaches",
+  type: "fruit",
+  price: 25.62
 }];
 var _default = data;
 exports.default = _default;
@@ -31613,7 +31859,7 @@ var _ShoppingCart = _interopRequireDefault(require("./ShoppingCart.jsx"));
 
 var _SearchBar = _interopRequireDefault(require("./SearchBar.jsx"));
 
-var _mockdata = _interopRequireDefault(require("../mockdata.js"));
+var _data = _interopRequireDefault(require("../data.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31636,25 +31882,23 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var axios = require('axios');
 
 var App = function App() {
-  var _useState = (0, _react.useState)(_mockdata.default),
+  var _useState = (0, _react.useState)(_data.default),
       _useState2 = _slicedToArray(_useState, 2),
       groceryItems = _useState2[0],
       setGroceryItems = _useState2[1];
 
-  var _useState3 = (0, _react.useState)([{
-    id: 1,
-    name: "Bananas",
-    category: "fruit",
-    price: 1.23
-  }]),
+  var _useState3 = (0, _react.useState)(groceryItems),
       _useState4 = _slicedToArray(_useState3, 2),
-      shoppingCart = _useState4[0],
-      setShoppingCart = _useState4[1]; // useEffect( () => {
-  //   console.log(groceryItems);
-  // }, [] )
-  // useEffect( () => {
+      filteredResults = _useState4[0],
+      setFilteredResults = _useState4[1];
+
+  var _useState5 = (0, _react.useState)({}),
+      _useState6 = _slicedToArray(_useState5, 2),
+      shoppingCart = _useState6[0],
+      setShoppingCart = _useState6[1]; // useEffect( () => {
   //   axios.get("https://muigrocery.free.beeceptor.com/groceries")
   //   .then( res => {
+  //     console.log( res.data.products )
   //     setGroceryItems( res.data.products );
   //   })
   //   .catch( err => {
@@ -31663,10 +31907,32 @@ var App = function App() {
   // }, [] )
 
 
+  var filterItems = function filterItems(string) {
+    var filteredItems = [];
+    string = string.toLowerCase();
+
+    for (var i = 0; i < groceryItems.length; i++) {
+      var item = groceryItems[i];
+
+      if (item.name.toLowerCase().includes(string)) {
+        filteredItems.push(item);
+      } else if (item.type.toLowerCase().includes(string)) {
+        filteredItems.push(item);
+      }
+    }
+
+    ;
+    return setFilteredResults(filteredItems);
+  };
+
   return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
     className: "section"
-  }, /*#__PURE__*/_react.default.createElement("h3", null, "Grocery Items"), /*#__PURE__*/_react.default.createElement(_SearchBar.default, null), /*#__PURE__*/_react.default.createElement(_GroceryTable.default, {
-    items: groceryItems
+  }, /*#__PURE__*/_react.default.createElement("h3", null, "Grocery Items"), /*#__PURE__*/_react.default.createElement(_SearchBar.default, {
+    handleSearch: filterItems
+  }), /*#__PURE__*/_react.default.createElement(_GroceryTable.default, {
+    items: filteredResults,
+    cart: shoppingCart,
+    addToCart: setShoppingCart
   })), /*#__PURE__*/_react.default.createElement("div", {
     className: "section"
   }, /*#__PURE__*/_react.default.createElement("h3", null, "Shopping Cart"), /*#__PURE__*/_react.default.createElement(_ShoppingCart.default, {
@@ -31676,7 +31942,7 @@ var App = function App() {
 
 var _default = App;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","./GroceryTable.jsx":"../src/components/GroceryTable.jsx","./ShoppingCart.jsx":"../src/components/ShoppingCart.jsx","./SearchBar.jsx":"../src/components/SearchBar.jsx","../mockdata.js":"../src/mockdata.js"}],"../src/index.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","./GroceryTable.jsx":"../src/components/GroceryTable.jsx","./ShoppingCart.jsx":"../src/components/ShoppingCart.jsx","./SearchBar.jsx":"../src/components/SearchBar.jsx","../data.js":"../src/data.js"}],"../src/index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
@@ -31716,7 +31982,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61894" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64763" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

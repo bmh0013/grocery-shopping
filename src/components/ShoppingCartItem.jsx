@@ -1,8 +1,6 @@
 import React from "react";
 
 const ShoppingCartItem = ({ item }) => {
-  item.quantity = 4;
-
   return (
     <div className="table-row">
       <div className="table-item">{item.name}</div>

@@ -1,27 +1,20 @@
 import React, { useState, useEffect } from "react";
 const axios = require('axios');
-import Table from "./GroceryTable.jsx";
+import GroceryTable from "./GroceryTable.jsx";
 import ShoppingCart from "./ShoppingCart.jsx";
 import SearchBar from "./SearchBar.jsx";
 
-import data from "../mockdata.js";
+import data from "../data.js";
 
 const App = () => {
   const [groceryItems, setGroceryItems] = useState(data);
-  const [shoppingCart, setShoppingCart] = useState([{
-    id: 1,
-    name: "Bananas",
-    category: "fruit",
-    price: 1.23
-  }]);
-
-  // useEffect( () => {
-  //   console.log(groceryItems);
-  // }, [] )
+  const [filteredResults, setFilteredResults] = useState(groceryItems);
+  const [shoppingCart, setShoppingCart] = useState({});
 
   // useEffect( () => {
   //   axios.get("https://muigrocery.free.beeceptor.com/groceries")
   //   .then( res => {
+  //     console.log( res.data.products )
   //     setGroceryItems( res.data.products );
   //   })
   //   .catch( err => {
@@ -29,12 +22,29 @@ const App = () => {
   //   });
   // }, [] )
 
+  const filterItems = (string) => {
+    const filteredItems = [];
+    string = string.toLowerCase();
+
+    for (let i = 0; i < groceryItems.length; i++) {
+      const item = groceryItems[i];
+
+      if ( item.name.toLowerCase().includes(string) ) {
+        filteredItems.push(item);
+      } else if ( item.type.toLowerCase().includes(string) ) {
+        filteredItems.push(item);
+      }
+    };
+
+    return setFilteredResults(filteredItems);
+  };
+
   return (
     <div>
       <div className="section">
         <h3>Grocery Items</h3>
-        <SearchBar />
-        <Table items={groceryItems} />
+        <SearchBar handleSearch={filterItems} />
+        <GroceryTable items={filteredResults} cart={shoppingCart} addToCart={setShoppingCart} />
       </div>
       <div className="section">
         <h3>Shopping Cart</h3>

@@ -8,6 +8,7 @@ body {
   margin: 0 auto;
   border: 2px solid black;
   overflow-y: scroll;
+  padding-right: 10px
 }
 
 .table-headers {
@@ -36,6 +37,7 @@ body {
 
 h3 {
   text-align: center;
+  margin: .5em;
 }
 
 .search {
@@ -50,6 +52,7 @@ h3 {
   margin: .5em;
   border: 1px solid grey;
   border-radius: 180px;
+  text-align: center;
 }
 
 .grand-total {

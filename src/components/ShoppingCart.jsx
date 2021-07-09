@@ -2,8 +2,11 @@ import React from "react";
 import ShoppingCartItem from './ShoppingCartItem.jsx';
 
 const ShoppingCart = ({ items }) => {
-  let totalPrice = items.reduce( (accu, item) => {
-    return item.price * 4;
+  items = Object.values(items);
+
+  const totalPrice = items.reduce( (accu, item) => {
+    accu += item.price * item.quantity
+    return accu;
   }, 0);
 
   return (
@@ -20,7 +23,7 @@ const ShoppingCart = ({ items }) => {
         })}
       </div>
       <div className="grand-total">
-        Grand Total: {totalPrice.toFixed(2)}
+        Grand Total: ${totalPrice.toFixed(2)}
       </div>
     </>
   );
