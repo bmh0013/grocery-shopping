@@ -4,30 +4,35 @@ body {
   font-family: "Raleway", sans-serif;
   margin: 0;
   padding: 0;
-  width: 100vw;
   height: 100vh;
   background: linear-gradient(#65dfc9, #6cdbab);
   color: rgb(60, 60, 60);
 }
 
-h3 {
-  text-align: center;
-  color: white;
-  text-shadow: 2px 1px 3px rgb(60, 60, 60);
+.main {
+  display: flex;
+  justify-content: center;
+}
+
+.grocery-items-section {
+  flex-grow: 0.025;
+  max-height: 80vh;
+}
+
+.shopping-cart-section {
+  max-height: 80vh;
 }
 
 /* TABLES & ROWS */
 .table {
   background: white;
+  width: 40vw;
+  height: 60vh;
+  max-width: 1000px;
   display: flex;
-  position: relative;
-  width: 50vw;
-  height: 35vh;
-  min-width: 500px;
   flex-direction: column;
-  border: 2px solid rgb(60, 60, 60);
+  border: 1px solid rgb(60, 60, 60);
   border-radius: 5px;
-  margin: 0 auto;
   padding: 0.25rem;
   box-shadow: 1px 1px 5px rgb(60, 60, 60);
 }
@@ -35,7 +40,7 @@ h3 {
 .table-headers {
   font-weight: 600;
   display: flex;
-  padding: 0.5rem;
+  padding: 0.2rem;
   border-bottom: 1px solid black;
 }
 
@@ -55,14 +60,71 @@ h3 {
   flex-basis: 0;
 }
 
-.name,
-.header-name {
-  flex-grow: 1.75;
-}
-
 .buttons {
   position: absolute;
   right: 1rem;
+}
+
+/* SHOPPING CART */
+.cart {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 25vw;
+  max-width: 500px;
+  height: 55vh;
+  border-top: 1px solid rgb(60, 60, 60);
+  border-left: 1px solid rgb(60, 60, 60);
+  border-right: 1px solid rgb(60, 60, 60);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 0.25rem;
+}
+
+.cart-headers {
+  font-weight: 600;
+  padding: 0.2rem;
+  display: flex;
+  border-bottom: 1px solid black;
+}
+
+.cart-footer {
+  display: flex;
+  height: 5vh;
+  justify-content: center;
+  align-items: center;
+  max-height: 50px;
+  font-weight: 600;
+  text-align: center;
+  border-bottom: 1px solid rgb(60, 60, 60);
+  border-left: 1px solid rgb(60, 60, 60);
+  border-right: 1px solid rgb(60, 60, 60);
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background: white;
+  box-sizing: border-box;
+}
+
+.cart-row {
+  display: flex;
+  position: relative;
+  padding: 0.5rem;
+  border-bottom: 1px solid black;
+}
+
+.cart-content {
+  overflow-y: scroll;
+}
+
+.cart-item {
+  flex-grow: 1;
+  flex-basis: 0;
+}
+
+.paper {
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px rgb(60, 60, 60);
 }
 
 .grand-total {
@@ -72,13 +134,20 @@ h3 {
   transform: translate(-50%, -50%);
 }
 
+.name,
+.header-name {
+  flex-grow: 1.75;
+}
+
 /* SEARCH & FILTERS */
 input:focus {
   outline: none;
 }
 
 .search {
-  width: 80%;
+  height: 1rem;
+  width: 100%;
+  max-width: 600px;
   padding: 0.5em;
   margin: 0.5em;
   border: 1px solid grey;
@@ -115,4 +184,22 @@ select {
   height: 1.5rem;
   border-radius: 3px;
   outline: none;
+}
+
+/* BANNER SECTION */
+.banner {
+  display: flex;
+  background: white;
+  justify-content: center;
+}
+
+figure {
+  margin: 0;
+}
+figure img {
+  display: block;
+}
+
+.logo {
+  height: 7rem;
 }
