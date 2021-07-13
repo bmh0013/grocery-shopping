@@ -1,7 +1,7 @@
 import React from "react";
 import GroceryItem from './GroceryItem.jsx';
 
-const GroceryTable = ({ items, cart, addToCart }) => {
+const GroceryTable = ({ items, cart, setShoppingCart }) => {
   return (
     <div className="table">
       <div className="table-headers">
@@ -11,7 +11,7 @@ const GroceryTable = ({ items, cart, addToCart }) => {
       </div>
       <div className="table-content">
         {items?.map( (item, idx) => {
-          return <GroceryItem key={idx} item={item} cart={cart} addToCart={addToCart} />
+          return <GroceryItem key={idx} item={item} cart={cart} setShoppingCart={setShoppingCart} />
         })}
       </div>
     </div>

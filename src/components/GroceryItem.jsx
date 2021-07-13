@@ -1,6 +1,6 @@
 import React from "react";
 
-const GroceryItem = ({ item, cart, addToCart }) => {
+const GroceryItem = ({ item, cart, setShoppingCart }) => {
   const addItem = () => {
     const updateCart = { ...cart };
 
@@ -15,7 +15,7 @@ const GroceryItem = ({ item, cart, addToCart }) => {
       };
     }
 
-    addToCart(updateCart);
+    setShoppingCart(updateCart);
   };
 
   const removeItem = () => {
@@ -28,7 +28,7 @@ const GroceryItem = ({ item, cart, addToCart }) => {
       }
     }
 
-    addToCart(updateCart);
+    setShoppingCart(updateCart);
   };
 
   return (

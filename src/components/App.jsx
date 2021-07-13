@@ -3,43 +3,58 @@ const axios = require("axios");
 import GroceryTable from "./GroceryTable.jsx";
 import ShoppingCart from "./ShoppingCart.jsx";
 import SearchBar from "./SearchBar.jsx";
-import FilterType from "./FilterType.jsx";
 
 import products from "../products.js";
 
 const App = () => {
-  const [groceryItems, setGroceryItems] = useState(products);
+  const [groceryItems, setGroceryItems] = useState([]);
   const [filteredResults, setFilteredResults] = useState(groceryItems);
   const [shoppingCart, setShoppingCart] = useState({});
   const [typeSelection, setTypeSelection] = useState("All Types");
+  const [allTypes, setAllTypes] = useState(["All Types"]);
 
-  // ### DATA SAVED IN data.js ###
+  // // Simiulate async get products since there is a limit for requests per day
   // useEffect(() => {
-  //   axios
-  //     .get("https://muigrocery.free.beeceptor.com/groceries")
-  //     .then((res) => {
-  //       setGroceryItems(res.data.products);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
+  //   setTimeout(setGroceryItems(products), 1000);
+  //   const types = ["All Types"];
+  //   for (const item of products) {
+  //     if (types.includes(item.type)) {
+  //       continue;
+  //     } else {
+  //       types.push(item.type);
+  //     }
+  //   }
+  //   setAllTypes(types);
   // }, []);
 
-  // Gathers the list of all food types for the select filter
-  const allTypes = ["All Types"];
-  for (const item of groceryItems) {
-    if (allTypes.includes(item.type)) {
-      continue;
-    } else {
-      allTypes.push(item.type);
-    }
-  }
+  // ### Data saved in products.js ###
+  useEffect(() => {
+    axios
+      .get("https://muigrocery.free.beeceptor.com/groceries")
+      .then((res) => {
+        setGroceryItems(res.data.products);
 
-  // Will update the filteredResults array once the type selection is changed
+        // Gathers the list of all food types  for the select filter
+        const types = ["All Types"];
+        for (const item of res.data.products) {
+          if (types.includes(item.type)) {
+            continue;
+          } else {
+            types.push(item.type);
+          }
+        }
+        setAllTypes(types);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  // Will update the tables when the type selection is changed or GET request returns with data
   useEffect(() => {
     const query = document.querySelector("#search-bar").value.toLowerCase();
     filterItems(query);
-  }, [typeSelection]);
+  }, [typeSelection, groceryItems]);
 
   const filterItems = (string) => {
     const filteredItems = [];
@@ -90,7 +105,7 @@ const App = () => {
           {selection}
           <SearchBar handleSearch={filterItems} />
         </div>
-        <GroceryTable items={filteredResults} cart={shoppingCart} addToCart={setShoppingCart} />
+        <GroceryTable items={filteredResults} cart={shoppingCart} setShoppingCart={setShoppingCart} />
       </div>
 
       <div className="shopping-cart-section">
