@@ -89,11 +89,6 @@ const App = () => {
     </select>
   );
 
-  const grandTotal = Object.values(shoppingCart).reduce((accu, item) => {
-    accu += item.price * item.quantity;
-    return accu;
-  }, 0);
-
   return (
     <div>
       <div className="banner">
@@ -112,7 +107,7 @@ const App = () => {
         </div>
 
         <div className="shopping-cart-section">
-          <ShoppingCart items={Object.values(shoppingCart)} grandTotal={grandTotal} />
+          <ShoppingCart items={Object.values(shoppingCart)} />
         </div>
       </div>
     </div>

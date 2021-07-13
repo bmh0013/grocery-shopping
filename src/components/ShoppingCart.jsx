@@ -1,7 +1,12 @@
 import React from "react";
 import ShoppingCartItem from "./ShoppingCartItem.jsx";
 
-const ShoppingCart = ({ items, grandTotal }) => {
+const ShoppingCart = ({ items }) => {
+  const grandTotal = items.reduce((accu, item) => {
+    accu += item.price * item.quantity;
+    return accu;
+  }, 0);
+
   return (
     <div className="paper">
       <div className="cart">
