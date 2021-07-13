@@ -12,8 +12,9 @@ const App = () => {
   const [shoppingCart, setShoppingCart] = useState({});
   const [typeSelection, setTypeSelection] = useState("All Types");
   const [allTypes, setAllTypes] = useState(["All Types"]);
+  const [modal, setModal] = useState(false);
 
-  // // Simiulate async get products since there is a limit for requests per day
+  // Simiulate async get products since there is a limit for requests per day
   // useEffect(() => {
   //   setTimeout(setGroceryItems(products), 1000);
   //   const types = ["All Types"];
@@ -77,11 +78,7 @@ const App = () => {
   };
 
   const selection = (
-    <select
-      name="types"
-      id="filter-types"
-      onChange={(e) => setTypeSelection(e.target.value)}
-    >
+    <select name="types" id="filter-types" onChange={(e) => setTypeSelection(e.target.value)} >
       {allTypes.map((type, idx) => {
         return (
           <option name="types" value={type} key={idx}>
@@ -92,25 +89,26 @@ const App = () => {
     </select>
   );
 
-  const grandTotal = Object.values(shoppingCart).reduce((accu, item) => {
-    accu += item.price * item.quantity;
-    return accu;
-  }, 0);
-
   return (
     <div>
-      <div className="grocery-items-section">
-        <h3>Grocery Items</h3>
-        <div className="filters">
-          {selection}
-          <SearchBar handleSearch={filterItems} />
-        </div>
-        <GroceryTable items={filteredResults} cart={shoppingCart} setShoppingCart={setShoppingCart} />
+      <div className="banner">
+        <figure>
+          <img src={require("../../public/assets/grocery-store-logo.jpeg")} className='logo'></img>
+        </figure>
+      </div>
+      <div className="filters">
+        {selection}
+        <SearchBar handleSearch={filterItems} />
       </div>
 
-      <div className="shopping-cart-section">
-        <h3>Shopping Cart - ( ${grandTotal.toFixed(2)} )</h3>
-        <ShoppingCart items={Object.values(shoppingCart)} />
+      <div className="main">
+        <div className="grocery-items-section">
+          <GroceryTable items={filteredResults} cart={shoppingCart} setShoppingCart={setShoppingCart} />
+        </div>
+
+        <div className="shopping-cart-section">
+          <ShoppingCart items={Object.values(shoppingCart)} />
+        </div>
       </div>
     </div>
   );
