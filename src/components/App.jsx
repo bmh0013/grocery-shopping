@@ -25,7 +25,7 @@ const App = () => {
   //     });
   // }, []);
 
-  // Gathers the list of all food types for the type filter
+  // Gathers the list of all food types for the select filter
   const allTypes = ["All Types"];
   for (const item of groceryItems) {
     if (allTypes.includes(item.type)) {
@@ -35,11 +35,11 @@ const App = () => {
     }
   }
 
-  // Will update the filteredResults array once GET request returns products or the type selection is changed
+  // Will update the filteredResults array once the type selection is changed
   useEffect(() => {
     const query = document.querySelector("#search-bar").value.toLowerCase();
     filterItems(query);
-  }, [typeSelection, groceryItems]);
+  }, [typeSelection]);
 
   const filterItems = (string) => {
     const filteredItems = [];
@@ -52,10 +52,7 @@ const App = () => {
       }
     } else {
       for (const item of groceryItems) {
-        if (
-          item.type === typeSelection &&
-          item.name.toLowerCase().includes(string)
-        ) {
+        if ( item.type === typeSelection && item.name.toLowerCase().includes(string) ) {
           filteredItems.push(item);
         }
       }
@@ -80,26 +77,25 @@ const App = () => {
     </select>
   );
 
+  const grandTotal = Object.values(shoppingCart).reduce((accu, item) => {
+    accu += item.price * item.quantity;
+    return accu;
+  }, 0);
+
   return (
     <div>
       <div className="grocery-items-section">
         <h3>Grocery Items</h3>
-
         <div className="filters">
           {selection}
           <SearchBar handleSearch={filterItems} />
         </div>
-
-        <GroceryTable
-          items={filteredResults}
-          cart={shoppingCart}
-          addToCart={setShoppingCart}
-        />
+        <GroceryTable items={filteredResults} cart={shoppingCart} addToCart={setShoppingCart} />
       </div>
 
       <div className="shopping-cart-section">
-        <h3>Shopping Cart</h3>
-        <ShoppingCart items={shoppingCart} />
+        <h3>Shopping Cart - ( ${grandTotal.toFixed(2)} )</h3>
+        <ShoppingCart items={Object.values(shoppingCart)} />
       </div>
     </div>
   );
