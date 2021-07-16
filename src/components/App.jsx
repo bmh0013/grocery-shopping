@@ -91,11 +91,11 @@ const App = () => {
 
   return (
     <div>
-      <div className="banner">
+      {/* <div className="banner">
         <figure>
-          {/* <img src={require("../../public/assets/grocery-store-logo.jpeg")} className='logo'></img> */}
+          <img src={require("../../public/assets/grocery-store-logo.jpeg")} className='logo'></img>
         </figure>
-      </div>
+      </div> */}
       <div className="filters">
         {selection}
         <SearchBar handleSearch={filterItems} />
