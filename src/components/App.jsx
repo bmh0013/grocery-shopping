@@ -93,7 +93,7 @@ const App = () => {
     <div>
       <div className="banner">
         <figure>
-          <img src={require("../../public/assets/grocery-store-logo.jpeg")} className='logo'></img>
+          {/* <img src={require("../../public/assets/grocery-store-logo.jpeg")} className='logo'></img> */}
         </figure>
       </div>
       <div className="filters">
